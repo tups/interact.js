@@ -1,4 +1,4 @@
-import { MockInteractable } from '@interactjs/core/tests/_helpers'
+import * as helpers from '@interactjs/core/tests/_helpers'
 
 import type { Interactable } from './Interactable'
 
@@ -8,9 +8,6 @@ describe('Interactable.testAllow with callback function', () => {
   let eventTarget: HTMLElement
 
   beforeEach(() => {
-    // Create a mock interactable
-    interactable = new MockInteractable() as any
-
     // Create DOM elements for testing
     targetNode = document.createElement('div')
     targetNode.className = 'target'
@@ -19,6 +16,10 @@ describe('Interactable.testAllow with callback function', () => {
     eventTarget.className = 'event-target'
 
     targetNode.appendChild(eventTarget)
+
+    // Create interactable using testEnv
+    const { interactable: testInteractable } = helpers.testEnv({ target: targetNode })
+    interactable = testInteractable
   })
 
   test('should work with string selector (existing functionality)', () => {
@@ -38,7 +39,7 @@ describe('Interactable.testAllow with callback function', () => {
   })
 
   test('should work with callback function returning true', () => {
-    const allowFrom = (targetNode: Node, eventTarget: Node) => {
+    const allowFrom = (_targetNode: Node, eventTarget: Node) => {
       return eventTarget instanceof Element && eventTarget.hasAttribute('data-allow')
     }
 
@@ -49,7 +50,7 @@ describe('Interactable.testAllow with callback function', () => {
   })
 
   test('should work with callback function returning false', () => {
-    const allowFrom = (targetNode: Node, eventTarget: Node) => {
+    const allowFrom = (_targetNode: Node, eventTarget: Node) => {
       return eventTarget instanceof Element && eventTarget.hasAttribute('data-allow')
     }
 
@@ -60,7 +61,7 @@ describe('Interactable.testAllow with callback function', () => {
   })
 
   test('should work with complex callback logic for drag handles', () => {
-    const allowFrom = (targetNode: Node, eventTarget: Node) => {
+    const allowFrom = (_targetNode: Node, eventTarget: Node) => {
       if (eventTarget instanceof Element) {
         // Only allow dragging from elements with 'drag-handle' class
         if (eventTarget.classList.contains('drag-handle')) {
@@ -129,7 +130,7 @@ describe('Interactable.testAllow with callback function', () => {
   })
 
   test('should work with role-based access control', () => {
-    const allowFrom = (targetNode: Node, eventTarget: Node) => {
+    const allowFrom = (_targetNode: Node, eventTarget: Node) => {
       if (eventTarget instanceof Element) {
         const role = eventTarget.getAttribute('data-role')
         const allowedRoles = ['admin', 'editor']

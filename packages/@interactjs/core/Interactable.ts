@@ -1,4 +1,14 @@
 /* eslint-disable no-dupe-class-members */
+import * as arr from '@interactjs/utils/arr'
+import browser from '@interactjs/utils/browser'
+import clone from '@interactjs/utils/clone'
+import { getElementRect, matchesUpTo, nodeContains, trySelector } from '@interactjs/utils/domUtils'
+import extend from '@interactjs/utils/extend'
+import is from '@interactjs/utils/is'
+import isNonNativeEvent from '@interactjs/utils/isNonNativeEvent'
+import normalizeListeners from '@interactjs/utils/normalizeListeners'
+import { getWindow } from '@interactjs/utils/window'
+
 import type { Scope } from '@interactjs/core/scope'
 import type {
   ActionMap,
@@ -13,16 +23,6 @@ import type {
   OrBoolean,
   Target,
 } from '@interactjs/core/types'
-import * as arr from '@interactjs/utils/arr'
-import browser from '@interactjs/utils/browser'
-import clone from '@interactjs/utils/clone'
-import { getElementRect, matchesUpTo, nodeContains, trySelector } from '@interactjs/utils/domUtils'
-import extend from '@interactjs/utils/extend'
-import is from '@interactjs/utils/is'
-import isNonNativeEvent from '@interactjs/utils/isNonNativeEvent'
-import normalizeListeners from '@interactjs/utils/normalizeListeners'
-import { getWindow } from '@interactjs/utils/window'
-
 
 import { Eventable } from './Eventable'
 import type { ActionDefaults, Defaults, OptionsArg, PerActionDefaults, Options } from './options'
@@ -316,7 +316,7 @@ export class Interactable implements Partial<Eventable> {
       return matchesUpTo(element, allowFrom, targetNode)
     } else if (is.element(allowFrom)) {
       return nodeContains(allowFrom, element)
-    } else if (is.function(allowFrom)) {
+    } else if (is.func(allowFrom)) {
       return allowFrom(targetNode, element)
     }
 
@@ -333,7 +333,7 @@ export class Interactable implements Partial<Eventable> {
       return matchesUpTo(element, ignoreFrom, targetNode)
     } else if (is.element(ignoreFrom)) {
       return nodeContains(ignoreFrom, element)
-    } else if (is.function(ignoreFrom)) {
+    } else if (is.func(ignoreFrom)) {
       return ignoreFrom(targetNode, element)
     }
 

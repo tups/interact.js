@@ -1,5 +1,6 @@
+import * as helpers from '@interactjs/core/tests/_helpers'
+
 import type { Interactable } from './Interactable'
-import { MockInteractable } from '@interactjs/core/tests/_helpers'
 
 describe('Interactable.testIgnore with callback function', () => {
   let interactable: Interactable
@@ -7,17 +8,18 @@ describe('Interactable.testIgnore with callback function', () => {
   let eventTarget: HTMLElement
 
   beforeEach(() => {
-    // Create a mock interactable
-    interactable = new MockInteractable() as any
-
     // Create DOM elements for testing
     targetNode = document.createElement('div')
     targetNode.className = 'target'
-    
+
     eventTarget = document.createElement('span')
     eventTarget.className = 'event-target'
-    
+
     targetNode.appendChild(eventTarget)
+
+    // Create interactable using testEnv
+    const { interactable: testInteractable } = helpers.testEnv({ target: targetNode })
+    interactable = testInteractable
   })
 
   test('should work with string selector (existing functionality)', () => {
@@ -37,7 +39,7 @@ describe('Interactable.testIgnore with callback function', () => {
   })
 
   test('should work with callback function returning true', () => {
-    const ignoreFrom = (targetNode: Node, eventTarget: Node) => {
+    const ignoreFrom = (_targetNode: Node, eventTarget: Node) => {
       return eventTarget instanceof Element && eventTarget.hasAttribute('data-ignore')
     }
 
@@ -48,7 +50,7 @@ describe('Interactable.testIgnore with callback function', () => {
   })
 
   test('should work with callback function returning false', () => {
-    const ignoreFrom = (targetNode: Node, eventTarget: Node) => {
+    const ignoreFrom = (_targetNode: Node, eventTarget: Node) => {
       return eventTarget instanceof Element && eventTarget.hasAttribute('data-ignore')
     }
 
@@ -59,7 +61,7 @@ describe('Interactable.testIgnore with callback function', () => {
   })
 
   test('should work with complex callback logic', () => {
-    const ignoreFrom = (targetNode: Node, eventTarget: Node) => {
+    const ignoreFrom = (_targetNode: Node, eventTarget: Node) => {
       if (eventTarget instanceof Element) {
         // Ignore input elements
         if (eventTarget.tagName === 'INPUT' || eventTarget.tagName === 'TEXTAREA') {
@@ -81,7 +83,7 @@ describe('Interactable.testIgnore with callback function', () => {
     // Test with input element
     const inputElement = document.createElement('input')
     targetNode.appendChild(inputElement)
-    
+
     let result = interactable.testIgnore(ignoreFrom, targetNode, inputElement)
     expect(result).toBe(true)
 
