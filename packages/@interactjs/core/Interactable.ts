@@ -27,7 +27,7 @@ import type {
 import { Eventable } from './Eventable'
 import type { ActionDefaults, Defaults, OptionsArg, PerActionDefaults, Options } from './options'
 
-type IgnoreValue = string | Element | boolean
+type IgnoreValue = string | Element | boolean | ((targetNode: Node, eventTarget: Node) => boolean)
 type DeltaSource = 'page' | 'client'
 
 const enum OnOffMethod {
@@ -330,6 +330,8 @@ export class Interactable implements Partial<Eventable> {
       return matchesUpTo(element, ignoreFrom, targetNode)
     } else if (is.element(ignoreFrom)) {
       return nodeContains(ignoreFrom, element)
+    } else if (is.function(ignoreFrom)) {
+      return ignoreFrom(targetNode, element)
     }
 
     return false

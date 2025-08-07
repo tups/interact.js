@@ -123,7 +123,7 @@ export type OriginFunction = (target: Element) => Rect
 export interface PointerEventsOptions {
   holdDuration?: number
   allowFrom?: string
-  ignoreFrom?: string
+  ignoreFrom?: string | Element | ((targetNode: Node, eventTarget: Node) => boolean)
   origin?: Rect | Point | string | Element | OriginFunction
 }
 

@@ -60,7 +60,7 @@ declare module '@interactjs/core/options' {
     max?: number
     maxPerElement?: number
     allowFrom?: string | Element
-    ignoreFrom?: string | Element
+    ignoreFrom?: string | Element | ((targetNode: Node, eventTarget: Node) => boolean)
     cursorChecker?: CursorChecker
 
     // only allow left button by default

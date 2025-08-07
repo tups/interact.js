@@ -21,7 +21,7 @@ export interface PerActionDefaults {
   origin?: Point | string | Element
   listeners?: Listeners
   allowFrom?: string | Element
-  ignoreFrom?: string | Element
+  ignoreFrom?: string | Element | ((targetNode: Node, eventTarget: Node) => boolean)
 }
 
 export type Options = Partial<BaseDefaults> &
