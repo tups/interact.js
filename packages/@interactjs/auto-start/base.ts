@@ -59,7 +59,7 @@ declare module '@interactjs/core/options' {
     manualStart?: boolean
     max?: number
     maxPerElement?: number
-    allowFrom?: string | Element
+    allowFrom?: string | Element | ((targetNode: Node, eventTarget: Node) => boolean)
     ignoreFrom?: string | Element | ((targetNode: Node, eventTarget: Node) => boolean)
     cursorChecker?: CursorChecker
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,65 +55,65 @@
     </style>
 </head>
 <body>
-    <h1>InteractJS - ignoreFrom avec fonction callback</h1>
+    <h1>InteractJS - ignoreFrom with Callback Function</h1>
     
     <div class="info">
-        <p>Cet exemple montre comment utiliser une fonction callback avec l'option <code>ignoreFrom</code>.</p>
-        <p>Essayez de faire glisser les éléments ci-dessous. Certaines zones sont configurées pour être ignorées.</p>
+        <p>This example shows how to use a callback function with the <code>ignoreFrom</code> option.</p>
+        <p>Try dragging the elements below. Some areas are configured to be ignored.</p>
     </div>
 
     <div class="draggable" id="basic-draggable">
-        <div class="drag-handle">✋ Poignée de glissement</div>
-        <p>Zone draggable basique</p>
-        <div class="no-drag">⛔ Zone ignorée (no-drag)</div>
-        <input type="text" placeholder="Input ignoré automatiquement">
+        <div class="drag-handle">✋ Drag Handle</div>
+        <p>Basic draggable area</p>
+        <div class="no-drag">⛔ Ignored zone (no-drag class)</div>
+        <input type="text" placeholder="Input automatically ignored">
     </div>
 
     <div class="draggable" id="advanced-draggable">
         <div class="drag-handle">✋ Drag Handle</div>
-        <p>Zone draggable avec logique avancée</p>
+        <p>Draggable area with advanced logic</p>
         <div data-ignore="true" style="background: #ff9; padding: 5px; margin: 5px 0;">
-            📝 Zone avec data-ignore (ignorée)
+            📝 Zone with data-ignore (ignored)
         </div>
-        <textarea placeholder="TextArea ignoré automatiquement"></textarea>
-        <button type="button">Bouton normal (draggable)</button>
+        <textarea placeholder="TextArea automatically ignored"></textarea>
+        <button type="button">Normal button (draggable)</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script>
-        // Configuration avec callback function
+        // Configuration with callback function
         interact('.draggable').draggable({
-            // Fonction callback pour ignoreFrom
+            // Callback function for ignoreFrom
             ignoreFrom: function(targetNode, eventTarget) {
-                // Ignorer les inputs et textareas
+                // Ignore inputs and textareas
                 if (eventTarget.tagName === 'INPUT' || eventTarget.tagName === 'TEXTAREA') {
-                    console.log('Ignoré: element input/textarea');
+                    console.log('Ignored: input/textarea element');
                     return true;
                 }
                 
-                // Ignorer les éléments avec data-ignore
+                // Ignore elements with data-ignore attribute
                 if (eventTarget.hasAttribute && eventTarget.hasAttribute('data-ignore')) {
-                    console.log('Ignoré: élément avec data-ignore');
+                    console.log('Ignored: element with data-ignore');
                     return true;
                 }
                 
-                // Ignorer les éléments avec classe 'no-drag' ou leurs enfants
+                // Ignore elements with 'no-drag' class or their children
                 let element = eventTarget;
                 while (element && element !== targetNode) {
                     if (element.classList && element.classList.contains('no-drag')) {
-                        console.log('Ignoré: élément ou parent avec classe no-drag');
+                        console.log('Ignored: element or parent with no-drag class');
                         return true;
                     }
                     element = element.parentElement;
                 }
                 
-                console.log('Pas ignoré: début du drag autorisé');
+                console.log('Not ignored: drag start allowed');
                 return false;
             },
             
             listeners: {
                 start: function(event) {
-                    console.log('Début du drag', event.target.id);
+                    console.log('Drag start', event.target.id);
                     event.target.style.opacity = 0.8;
                 },
                 move: function(event) {
@@ -126,7 +126,7 @@
                     target.setAttribute('data-y', y);
                 },
                 end: function(event) {
-                    console.log('Fin du drag', event.target.id);
+                    console.log('Drag end', event.target.id);
                     event.target.style.opacity = '';
                 }
             }
